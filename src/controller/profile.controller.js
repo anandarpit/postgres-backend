@@ -48,7 +48,6 @@ exports.UnfollowUser = catchAsync(async (req, res, next) => {
   }
 });
 
-
 exports.GetUser = catchAsync(async (req, res, next) => {
   const userId = res.locals.payload.sub;
   const getUsername = await pool.query(
@@ -67,6 +66,11 @@ exports.GetUser = catchAsync(async (req, res, next) => {
     [userId]
   );
 
-  return res.status(200).json({"username":getUsername.rows[0].username,"followers": getFollowersCount.rows[0], "following":getFollowingCount.rows[0]});
-  
-})
+  return res
+    .status(200)
+    .json({
+      username: getUsername.rows[0].username,
+      followers: getFollowersCount.rows[0],
+      following: getFollowingCount.rows[0],
+    });
+});

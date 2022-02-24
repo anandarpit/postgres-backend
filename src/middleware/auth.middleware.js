@@ -9,7 +9,7 @@ const catchAsync = require("../utils/catchAsync");
 module.exports = {
   isLoggedIn: catchAsync(async (req, res, next) => {
       const token = req.headers[`authorization`];
-      if (!token) throw createError.BadRequest();
+      if (!token) throw createError.BadRequest({ message: `Token not found` });
         
       jwt.verify(token, PUB_KEY, (err, payload) => {
         if (err) {
@@ -23,5 +23,4 @@ module.exports = {
         }
       });
   })
-
 }

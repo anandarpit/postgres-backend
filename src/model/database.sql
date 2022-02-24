@@ -22,3 +22,19 @@ CREATE DATABASE social_app;
         description TEXT NOT NULL,
         created_at TEXT NOT NULL
     );
+
+
+
+    CREATE TABLE likes(
+        postId int NOT NULL,
+        userId int NOT NULL
+    );
+
+
+    CREATE TABLE comments(
+        commentId SERIAL PRIMARY KEY,
+        postId int NOT NULL,
+        userId int NOT NULL,
+        comment TEXT NOT NULL,
+        created_at TEXT NOT NULL
+    );
