@@ -1,0 +1,22 @@
+{
+  "name": "postgres-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@hapi/joi": "^17.1.1",
+    "cookie-parser": "^1.4.6",
+    "express": "^4.17.3",
+    "helmet": "^5.0.2",
+    "http-errors": "^2.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "pg": "^8.7.3",
+    "swagger-ui-express": "^4.3.0"
+  }
+}
