@@ -16,6 +16,10 @@ app.use(express.urlencoded({ extended: true }));
 // Routes
 app.use("/", require("./routes"));
 
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("../swagger.json");
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 app.use(async (req, res, next) => {
   next(createError.NotFound());
 });
@@ -37,6 +41,6 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(3000, () => {
+app.listen(process.env.PORT || 3000, () => {
   logger.info("listening on port 3000");
 });

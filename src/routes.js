@@ -7,6 +7,7 @@ const ac = require('./controller/auth.controller')
 const pc = require('./controller/profile.controller')
 const pc2 = require('./controller/post.controller')
 
+
 router.post('/api/createuser', cc.CreateUser);
 router.post('/api/authenticate', ac.AuthenticateUser);
 router.post('/api/follow',isLoggedIn, pc.FollowUser);
