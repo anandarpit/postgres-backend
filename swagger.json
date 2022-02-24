@@ -1,0 +1,24 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is the docs of reunion",
+        "version": "1.0.5",
+        "title": "reunion",
+        "contact": {
+            "email": "contact@orvide.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        }
+    },
+    "host": "localhost:3000",
+    "basePath": "/api",
+    "tags": [],
+    "schemes": [
+        "http"
+    ],
+    "paths": {},
+    "securityDefinitions": {},
+    "definitions": {}
+}
