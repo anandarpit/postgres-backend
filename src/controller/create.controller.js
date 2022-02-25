@@ -4,11 +4,19 @@ const catchAsync = require("../utils/catchAsync");
 exports.CreateUser = catchAsync(async (req, res, next) => {
   //TODO: Add validation here
   console.log(req.body);
-  const { name, email, username , password} = req.body;
-  const newPool = await pool.query(
-    "INSERT INTO app.profile (name, email,username, password) VALUES ($1, $2, $3, $4) RETURNING *",
-    [name, email,username, password]
+  const { name, email, username, password } = req.body;
+  const following = await pool.query(
+    "SELECT * FROM profile WHERE email = $1 OR username = $2",
+    [email, username]
   );
-  return res.status(200).json(newPool);
-});
+  if (following.rows.length == 0) {
+    const newPool = await pool.query(
+      "INSERT INTO profile (name, email, username, password) VALUES ($1, $2, $3, $4) RETURNING *",
+      [name, email, username, password]
+    );
 
+    return res.status(200).send("User created successfully");
+  } else {
+    return res.status(403).send("User already exists");
+  }
+});

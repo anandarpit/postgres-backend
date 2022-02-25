@@ -8,7 +8,7 @@ exports.AuthenticateUser =catchAsync(async (req, res, next) => {
     console.log(req.body);
     const { email, password } = req.body;
     const newPool = await pool.query(
-        "SELECT * FROM app.profile WHERE email = $1", [email]
+        "SELECT * FROM profile WHERE email = $1", [email]
     )
     if(newPool.rows[0] != null && newPool.rows[0].password == password){
 

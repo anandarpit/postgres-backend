@@ -9,12 +9,12 @@ exports.FollowUser = catchAsync(async (req, res, next) => {
     return res.status(403).send("You cannot follow yourself");
   } else {
     const following = await pool.query(
-      "SELECT * FROM app.followRelation WHERE userId = $1 AND follows = $2",
+      "SELECT * FROM followRelation WHERE userId = $1 AND follows = $2",
       [userId, req.body.id]
     );
     if (following.rows.length == 0) {
       const newPool = await pool.query(
-        "INSERT INTO app.followRelation (userId, follows) VALUES ($1, $2) RETURNING *",
+        "INSERT INTO followRelation (userId, follows) VALUES ($1, $2) RETURNING *",
         [userId, req.body.id]
       );
 
@@ -32,12 +32,12 @@ exports.UnfollowUser = catchAsync(async (req, res, next) => {
     return res.status(403).send("You cannot unfollow yourself");
   } else {
     const following = await pool.query(
-      "SELECT * FROM app.followRelation WHERE userId = $1 AND follows = $2",
+      "SELECT * FROM followRelation WHERE userId = $1 AND follows = $2",
       [userId, req.body.id]
     );
     if (following.rows.length != 0) {
       const newPool = await pool.query(
-        "DELETE FROM app.followRelation WHERE userId = $1 AND follows = $2",
+        "DELETE FROM followRelation WHERE userId = $1 AND follows = $2",
         [userId, req.body.id]
       );
 
@@ -51,18 +51,18 @@ exports.UnfollowUser = catchAsync(async (req, res, next) => {
 exports.GetUser = catchAsync(async (req, res, next) => {
   const userId = res.locals.payload.sub;
   const getUsername = await pool.query(
-    "SELECT * FROM app.profile WHERE userId = $1",
+    "SELECT * FROM profile WHERE userId = $1",
     [userId]
   );
   console.log(getUsername);
 
   const getFollowersCount = await pool.query(
-    "SELECT COUNT(*) FROM app.followRelation WHERE follows = $1",
+    "SELECT COUNT(*) FROM followRelation WHERE follows = $1",
     [userId]
   );
 
   const getFollowingCount = await pool.query(
-    "SELECT COUNT(*) FROM app.followRelation WHERE userId = $1",
+    "SELECT COUNT(*) FROM followRelation WHERE userId = $1",
     [userId]
   );
 
