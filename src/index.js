@@ -8,10 +8,10 @@ const logger = require("./config/logger");
 const httpLogger = require("./config/httpLogger");
 const helmet = require("helmet");
 
-app.use(cors({ origin: true, optionsSuccessStatus: 200, credentials: true }));
+app.use(cors({ origin: '*', optionsSuccessStatus: 200, credentials: true }));
 app.options(
   "*",
-  cors({ origin: true, optionsSuccessStatus: 200, credentials: true })
+  cors({ origin: '*', optionsSuccessStatus: 200, credentials: true })
 );
 
 app.use(helmet());
