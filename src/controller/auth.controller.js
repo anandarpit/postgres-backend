@@ -17,7 +17,7 @@ exports.AuthenticateUser = catchAsync(async (req, res, next) => {
     const token = await signJWTToken(newPool.rows[0].userid);
     if (token) {
       res.cookie("authorization", token, {
-        maxAge: 1000 * 60 * 60 * 24 * 7, //Currently valid for seven days
+        maxAge: 1000 * 60 * 60 * 24 * 7, //Valid for seven days
         httpOnly: true,
       });
     }

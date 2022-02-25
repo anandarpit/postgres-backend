@@ -1,10 +1,13 @@
 const pool = require("../config/db");
 const catchAsync = require("../utils/catchAsync");
+const validator = require("../validation/create.validation");
 
 exports.CreateUser = catchAsync(async (req, res, next) => {
-  //TODO: Add validation here
-  console.log(req.body);
-  const { name, email, username, password } = req.body;
+  const validatedResult = await validator
+    .CreateUser()
+    .validateAsync(req.body, { abortEarly: false });
+
+  const { name, email, username, password } = validatedResult;
   const following = await pool.query(
     "SELECT * FROM profile WHERE email = $1 OR username = $2",
     [email, username]
