@@ -12,7 +12,7 @@
             "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
         }
     },
-    "host": "https://reunionarpit.herokuapp.com/",
+    "host": "reunionarpit.herokuapp.com",
     "basePath": "/api",
     "tags": [],
     "schemes": [
