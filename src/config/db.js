@@ -1,11 +1,12 @@
 const Pool = require("pg").Pool;
+require('dotenv').config({path: '../../.env'})
 
 const pool = new Pool({
-  user: "hxjadajhfsrent",
-  password: "a5ad49dd6616c8797264a37c65f44b9088e03d3c32c617080dbd191794c17ea2",
-  database: "d22d2mhjemu0te",
-  host: "ec2-67-202-63-147.compute-1.amazonaws.com",
-  port: 5432,
+  user: process.env.USER_VALUE,
+  password: process.env.PASSWORD_VALUE,
+  database: process.env.DATABASE,
+  host: process.env.HOST,
+  port: process.env.DB_PORT,
   ssl: true,
   ssl: { rejectUnauthorized: false },
 });

@@ -1,10 +1,17 @@
 const pool = require("../config/db");
 const catchAsync = require("../utils/catchAsync");
+const postValidator = require("../validation/posts.validation");
 
 exports.CreatePost = catchAsync(async (req, res, next) => {
   const userId = res.locals.payload.sub;
 
-  const { title, description } = req.body;
+  const validatedResult = await postValidator
+    .CreatePost()
+    .validateAsync(req.body, {
+      abortEarly: false,
+    });
+
+  const { title, description } = validatedResult;
   const created_at = Date.now().toString();
 
   const newPool = await pool.query(
@@ -23,7 +30,13 @@ exports.CreatePost = catchAsync(async (req, res, next) => {
 exports.DeletePost = catchAsync(async (req, res, next) => {
   const userId = res.locals.payload.sub;
 
-  const { postId } = req.body;
+  const validatedResult = await postValidator
+    .DeletePost()
+    .validateAsync(req.body, {
+      abortEarly: false,
+    });
+
+  const { postId } = validatedResult;
   console.log(postId);
 
   const newPool = await pool.query(
@@ -32,7 +45,7 @@ exports.DeletePost = catchAsync(async (req, res, next) => {
   );
 
   if (newPool.rows.length === 0) {
-    return res.status(404).json({ message: "Post not found" });
+    return res.status(404).json({ message: "Either post does not exist or you are the not the creator of the post" });
   } else {
     await pool.query("DELETE FROM posts WHERE postId = $1", [postId]);
     return res.status(200).json({ message: "Post deleted" });
@@ -42,7 +55,13 @@ exports.DeletePost = catchAsync(async (req, res, next) => {
 exports.LikePost = catchAsync(async (req, res, next) => {
   const userId = res.locals.payload.sub;
 
-  const { postId } = req.body;
+  const validatedResult = await postValidator
+    .LikePost()
+    .validateAsync(req.body, {
+      abortEarly: false,
+    });
+
+  const { postId } = validatedResult;
 
   const newPool = await pool.query("SELECT * FROM posts WHERE postId = $1", [
     postId,
@@ -72,7 +91,10 @@ exports.LikePost = catchAsync(async (req, res, next) => {
 exports.UnlikePost = catchAsync(async (req, res, next) => {
   const userId = res.locals.payload.sub;
 
-  const { postId } = req.body;
+  const validatedResult = await postValidator.UnlikePost().validateAsync(req.body, {
+    abortEarly: false,
+  })
+  const { postId } = validatedResult;
 
   const newPool = await pool.query("SELECT * FROM posts WHERE postId = $1", [
     postId,
@@ -101,7 +123,11 @@ exports.UnlikePost = catchAsync(async (req, res, next) => {
 exports.AddComment = catchAsync(async (req, res, next) => {
   const userId = res.locals.payload.sub;
 
-  const { postId, comment } = req.body;
+  const validatedResult = await postValidator.AddComment().validateAsync(req.body, {
+    abortEarly: false,
+  })
+
+  const { postId, comment } = validatedResult;
 
   const newPool = await pool.query("SELECT * FROM posts WHERE postId = $1", [
     postId,
@@ -120,8 +146,6 @@ exports.AddComment = catchAsync(async (req, res, next) => {
 });
 
 exports.GetCount = catchAsync(async (req, res, next) => {
-  const userId = res.locals.payload.sub;
-
   const postId = req.params.id;
 
   const newPool = await pool.query("SELECT * FROM posts WHERE postId = $1", [

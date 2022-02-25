@@ -1,21 +1,26 @@
 const pool = require("../config/db");
 const catchAsync = require("../utils/catchAsync");
-
+const ProfileValidator = require("../validation/profile.validation");
 exports.FollowUser = catchAsync(async (req, res, next) => {
-  //TODO: Add validation here
+  const validatedResult = await ProfileValidator.FollowUser().validateAsync(
+    req.body,
+    {
+      abortEarly: false,
+    }
+  );
   const userId = res.locals.payload.sub;
-  console.log(req.body);
-  if (req.body.id == userId) {
+
+  if (validatedResult.id == userId) {
     return res.status(403).send("You cannot follow yourself");
   } else {
     const following = await pool.query(
       "SELECT * FROM followRelation WHERE userId = $1 AND follows = $2",
-      [userId, req.body.id]
+      [userId, validatedResult.id]
     );
     if (following.rows.length == 0) {
-      const newPool = await pool.query(
+      await pool.query(
         "INSERT INTO followRelation (userId, follows) VALUES ($1, $2) RETURNING *",
-        [userId, req.body.id]
+        [userId, validatedResult.id]
       );
 
       return res.status(200).send("You are now following this user");
@@ -27,18 +32,24 @@ exports.FollowUser = catchAsync(async (req, res, next) => {
 
 exports.UnfollowUser = catchAsync(async (req, res, next) => {
   const userId = res.locals.payload.sub;
-  console.log(req.body);
-  if (req.body.id == userId) {
+  const validatedResult = await ProfileValidator.UnfollowUser().validateAsync(
+    req.body,
+    {
+      abortEarly: false,
+    }
+  );
+
+  if (validatedResult.id == userId) {
     return res.status(403).send("You cannot unfollow yourself");
   } else {
     const following = await pool.query(
       "SELECT * FROM followRelation WHERE userId = $1 AND follows = $2",
-      [userId, req.body.id]
+      [userId, validatedResult.id]
     );
     if (following.rows.length != 0) {
-      const newPool = await pool.query(
+      await pool.query(
         "DELETE FROM followRelation WHERE userId = $1 AND follows = $2",
-        [userId, req.body.id]
+        [userId, validatedResult.id]
       );
 
       return res.status(200).send("You have successfully unfollowed this user");
@@ -66,11 +77,9 @@ exports.GetUser = catchAsync(async (req, res, next) => {
     [userId]
   );
 
-  return res
-    .status(200)
-    .json({
-      username: getUsername.rows[0].username,
-      followers: getFollowersCount.rows[0],
-      following: getFollowingCount.rows[0],
-    });
+  return res.status(200).json({
+    username: getUsername.rows[0].username,
+    followers: getFollowersCount.rows[0],
+    following: getFollowingCount.rows[0],
+  });
 });

@@ -1,4 +1,5 @@
 const express = require("express");
+require('dotenv').config();
 var app = express();
 const createError = require(`http-errors`);
 var cookieParser = require("cookie-parser");
@@ -26,21 +27,31 @@ app.use(async (req, res, next) => {
 
 //Error Handler
 app.use((err, req, res, next) => {
-  const errorType = createError.isHttpError(err);
-  if (!errorType) {
-    console.log(`Programatic Error, Shutting down due to ${err.stack}`);
+  logger.error(err);
+  if (!isOperational(err)) {
+    logger.error(`shutting down due to ${err.stack}`);
     process.exit(1);
+  } else {
+    res.status(err.status || 500);
+    res.send({
+      error: {
+        status: err.status || 500,
+        message: err.message,
+      },
+    });
   }
-
-  res.status(err.status || 500);
-  res.json({
-    error: {
-      status: err.status || 500,
-      message: err.message,
-    },
-  });
 });
 
-app.listen(process.env.PORT || 3000, () => {
-  logger.info("listening on port 3000");
+isOperational = (err) => {
+  const errorType = createError.isHttpError(err);
+
+  if (errorType || err.isJoi) return true;
+  else return false;
+};
+
+
+//Exposing port
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  logger.info(`listening on port ${PORT}`);
 });
