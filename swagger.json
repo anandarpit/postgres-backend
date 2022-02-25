@@ -1,24 +1,559 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "This is the docs of reunion",
+        "description": "This is the docs of socail app backend for reunion",
         "version": "1.0.5",
         "title": "reunion",
         "contact": {
-            "email": "contact@orvide.com"
+            "email": "orionarpit@gmail.com"
         },
         "license": {
             "name": "Apache 2.0",
             "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
         }
     },
-    "host": "localhost:3000",
+    "host": "https://reunionarpit.herokuapp.com/",
     "basePath": "/api",
     "tags": [],
     "schemes": [
         "http"
     ],
-    "paths": {},
-    "securityDefinitions": {},
-    "definitions": {}
+    "paths": {
+        "/createuser": {
+            "post": {
+                "tags": [
+                    "profile"
+                ],
+                "summary": "create user",
+                "description": "create user",
+                "consumes": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "produces": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "create user",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/createuser"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User created successfully"
+                    },
+                    "400": {
+                        "description": "User already exists"
+                    }
+                }
+            }
+        },
+        "/authenticate": {
+            "post": {
+                "tags": [
+                    "profile"
+                ],
+                "summary": "authenticate user",
+                "description": "authenticate user",
+                "consumes": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "produces": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "authenticate user",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/authenticate"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User authenticated successfully"
+                    },
+                    "400": {
+                        "description": "User not found"
+                    }
+                }
+            }
+        },
+        "/follow": {
+            "post": {
+                "tags": [
+                    "profile"
+                ],
+                "summary": "follow user",
+                "description": "follow user",
+                "consumes": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "produces": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "follow user",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/follow"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "You are now following this user"
+                    },
+                    "400": {
+                        "description": "User not found"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/unfollow": {
+            "post": {
+                "tags": [
+                    "profile"
+                ],
+                "summary": "follow user",
+                "description": "follow user",
+                "consumes": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "produces": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "follow user",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/unfollow"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "You have successfully unfollowed this user"
+                    },
+                    "400": {
+                        "description": "You don't follow this user"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/user": {
+            "get": {
+                "tags": [
+                    "profile"
+                ],
+                "summary": "get personal follow stats",
+                "description": "get personal follow stats",
+                "produces": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "follow information "
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/posts": {
+            "post": {
+                "tags": [
+                    "posts"
+                ],
+                "summary": "create post",
+                "description": "create post",
+                "consumes": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "produces": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "create post",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/createpost"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Post created successfully"
+                    },
+                    "400": {
+                        "description": "Post already exists"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "posts"
+                ],
+                "summary": "delete post",
+                "description": "delete post",
+                "consumes": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "produces": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "create post",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/deletepost"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Post deleted successfully"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/posts/{id}":{
+            "get": {
+                "tags": [
+                    "posts"
+                ],
+                "summary": "get the like and comment count of the post",
+                "produces": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "post id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Post found"
+                    },
+                    "400": {
+                        "description": "Post not found"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/like": {
+            "post": {
+                "tags": [
+                    "posts"
+                ],
+                "summary": "like post",
+                "description": "like post",
+                "consumes": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "produces": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "like post",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/like"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Post liked successfully"
+                    },
+                    "400": {
+                        "description": "Post not found"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/unlike": {
+            "post": {
+                "tags": [
+                    "posts"
+                ],
+                "summary": "unlike post",
+                "description": "unlike post",
+                "consumes": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "produces": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "like post",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/unlike"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Post unliked successfully"
+                    },
+                    "400": {
+                        "description": "Post not found"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/comment": {
+            "post" : {
+                "tags": [
+                    "posts"
+                ],
+                "summary": "comment on post",
+                "description": "comment on post",
+                "consumes": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "produces": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "comment on post",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/comment"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "commented successfully"
+                    },
+                    "400": {
+                        "description": "Post not found"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/all_posts" : {
+            "get": {
+                "tags": [
+                    "posts"
+                ],
+                "summary": "get all posts",
+                "description": "get all posts, comments and likes the logged in user",
+                "produces": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "all posts"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        }
+    },
+    "securityDefinitions": {
+        "api_key": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    },
+    "definitions": {
+        "createuser": {
+            "type": "object",
+            "properties": {
+                "username": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "authenticate": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "follow": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "unfollow": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "createpost": {
+            "type": "object",
+            "properties": {
+                "title": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                }
+            }
+        },
+        "deletepost": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "like":{
+            "type": "object",
+            "properties": {
+                "postId": {
+                    "type": "integer"
+                }
+            }
+        },
+        "unlike":{
+            "type": "object",
+            "properties": {
+                "postId": {
+                    "type": "integer"
+                }
+            }
+        },
+        "comment":{
+            "type": "object",
+            "properties": {
+                "postId": {
+                    "type": "integer"
+                },
+                "comment": {
+                    "type": "string"
+                }
+            }
+        }
+    }
 }
