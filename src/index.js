@@ -1,3 +1,4 @@
+const cors = require('cors');
 const express = require("express");
 require('dotenv').config();
 var app = express();
@@ -6,6 +7,9 @@ var cookieParser = require("cookie-parser");
 const logger = require("./config/logger");
 const httpLogger = require("./config/httpLogger");
 const helmet = require("helmet");
+
+app.use(cors());
+
 
 app.use(helmet());
 app.use(httpLogger);
