@@ -16,7 +16,8 @@
     "basePath": "/api",
     "tags": [],
     "schemes": [
-        "http"
+        "http",
+        "https"
     ],
     "paths": {
         "/createuser": {
